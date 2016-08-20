@@ -1,3 +1,1 @@
 # sbitc-echo
-
-FIRST
