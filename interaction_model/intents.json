@@ -1,0 +1,13 @@
+{
+  "intents": [
+    {
+      "intent": "RawText",
+      "slots": [
+        {
+          "name": "Text",
+          "type": "AMAZON.LITERAL"
+        }
+      ]
+    }
+  ]
+}
