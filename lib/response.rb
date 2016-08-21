@@ -31,8 +31,6 @@
 # }
 
 module Response
-  SSML_TAGS = %w(audio break p phoneme s say-as speak w)
-
   def self.speech speech, **opts
     if speech.is_a? String
       type = :PlainText
