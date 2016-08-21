@@ -8,8 +8,13 @@ require 'active_support/core_ext'
 
 require 'pp'
 
+require './audio_scraper/audio_scraper'
+
 get '/' do
-  'It works!'
+  cards = AudioScraper.get_cards
+  cards.map do |card|
+      card[:id]
+  end.join
 end
 
 post '/echo' do

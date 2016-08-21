@@ -6,3 +6,4 @@ gem 'sinatra-contrib'
 gem 'activesupport'
 
 gem 'pry'
+gem 'curb'
