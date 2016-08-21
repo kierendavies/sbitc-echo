@@ -5,16 +5,10 @@ require 'json'
 require 'active_support'
 require 'active_support/core_ext'
 
-require 'pp'
-require 'pry'
-require 'set'
-
 require './lib/response'
 
 require 'sinatra/reloader' if development?
 also_reload './lib/response'
-
-$sessions = Set.new
 
 get '/' do
   'It works!'
@@ -23,12 +17,6 @@ end
 post '/echo' do
   request.body.rewind
   @params = JSON.parse(request.body.read).with_indifferent_access
-
-  if !$sessions.include? params[:session][:sessionId]
-    logger.info "\n===== new session ====="
-    $sessions << params[:session][:sessionId]
-  end
-
   logger.info "Request:\n#{JSON.pretty_generate params}"
 
   response = case params[:request][:type]
@@ -46,7 +34,7 @@ post '/echo' do
       Response.speech(text, end_session: end_session)
     end
   when 'SessionEndedRequest'
-  end
+  end || {}
 
   logger.info "Response:\n#{JSON.pretty_generate response}"
   json response
