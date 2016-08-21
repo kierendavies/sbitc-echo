@@ -16,9 +16,9 @@ module AudioScraper
   #   :time  :  Time the clip was recorded.
   # }
   def self.cards start_time, end_time
-    fromMillis = (start_time.to_f * 1000).to_i
-    toMillis = (end_time.to_f * 1000).to_i
-    url = "https://pitangui.amazon.com/api/cards?beforeCreationTime=#{toMillis}&_=#{fromMillis}"
+    start_millis = (start_time.to_f * 1000).to_i
+    end_millis = (end_time.to_f * 1000).to_i
+    url = "https://pitangui.amazon.com/api/cards?beforeCreationTime=#{end_millis}&_=#{start_millis}"
 
     curl_response = Curl::Easy.perform url do |curl|
       curl.headers['User-Agent'] = USER_AGENT
@@ -34,7 +34,7 @@ module AudioScraper
       text = card[:descriptiveText].join "\n"
       time = card[:creationTimestamp].to_i
 
-      if time > fromMillis && time < toMillis
+      if time > start_millis && time < end_millis
         {
           :id => id,
           :text => text,
