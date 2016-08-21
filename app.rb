@@ -1,5 +1,8 @@
 $LOAD_PATH.unshift File.expand_path File.dirname __FILE__
 
+require 'rubygems'
+require 'bundler/setup'
+
 require 'sinatra'
 require 'sinatra/json'
 
@@ -9,10 +12,9 @@ require 'active_support/core_ext'
 
 require 'lib/response'
 require 'models/cookie'
-require 'audio_scraper/audio_scraper'
+require 'lib/audio_scraper'
 
 require 'sinatra/reloader' if development?
-also_reload 'lib/response'
 
 get '/' do
   haml :index, locals: {cookie: Cookie.get}
