@@ -7,3 +7,4 @@ gem 'activesupport'
 gem 'haml'
 
 gem 'pry'
+gem 'curb'

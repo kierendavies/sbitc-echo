@@ -10,6 +10,8 @@ require './lib/response'
 require 'sinatra/reloader' if development?
 also_reload './lib/response'
 
+require './audio_scraper/audio_scraper'
+
 get '/' do
   haml :index
 end

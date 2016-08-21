@@ -11,6 +11,7 @@ GEM
     coderay (1.1.0)
     haml (4.0.7)
       tilt
+    curb (0.9.3)
     i18n (0.7.0)
     json (1.8.3)
     method_source (0.8.2)
@@ -48,9 +49,10 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   haml
+  curb
   pry
   sinatra
   sinatra-contrib
 
 BUNDLED WITH
-   1.11.2
+   1.12.5
