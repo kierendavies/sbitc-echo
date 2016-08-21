@@ -12,8 +12,13 @@ module AudioScraper
     #   :id      :    Audio clip id.
     #   :time    :    Time the clip was recorded.
     # }
-    def self.get_cards 
-        curl_response = Curl::Easy.perform('https://pitangui.amazon.com/api/cards') do |curl|
+    def self.get_cards fromTime, toTime
+        fromMillis = (fromTime.to_f * 1000).to_i
+        toMillis   = (toTime.to_f   * 1000).to_i
+        url = "https://pitangui.amazon.com/api/cards?beforeCreationTime=#{toMillis}&_=#{fromMillis}"
+        puts url
+
+        curl_response = Curl::Easy.perform(url) do |curl|
             curl.headers['User-Agent'] = USER_AGENT
             curl.headers['Accept'] = ACCEPT
             curl.headers['Cookie'] = SESSION_COOKIE
@@ -25,13 +30,17 @@ module AudioScraper
         response[:cards].map do |card|
             id = /\/api\/utterance\/audio\/data\?id=(.*)/.match(card[:playbackAudioAction][:url])[1]
             text = card[:descriptiveText].join
-            time = card[:creationTimestamp]
+            time = card[:creationTimestamp].to_i
 
-            {
-                :id => id,
-                :text => text,
-                :time => time
-            }
+            if time > fromMillis && time < toMillis
+                {
+                    :id => id,
+                    :text => text,
+                   :time => time
+                }
+            else
+                nil
+            end
         end.compact
     end
 
