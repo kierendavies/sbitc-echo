@@ -8,6 +8,82 @@
           "type": "AMAZON.LITERAL"
         }
       ]
+    },
+    {
+      "intent": "readItemsHeldOver"
+    },
+    {
+      "intent": "recordItemHeldOver",
+      "slots": [
+        {
+          "name": "ItemHeldOver",
+          "type": "AMAZON.LITERAL"
+        }
+      ]
+    },
+    {
+      "intent": "readActionList"
+    },
+    {
+      "intent": "recordActionItem",
+      "slots": [
+        {
+          "name": "ActionItem",
+          "type": "AMAZON.LITERAL"
+        }
+      ]
+    },
+    {
+      "intent": "recordMotion",
+      "slots": [
+        {
+          "name": "Motion",
+          "type": "AMAZON.LITERAL"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.NoIntent"
+    },
+    {
+      "intent": "AMAZON.YesIntent"
+    },
+    {
+      "intent": "recordMotionResult",
+      "slots": [
+        {
+          "name": "MotionResult",
+          "type": "AMAZON.LITERAL"
+        }
+      ]
+    },
+    {
+      "intent": "addAttendee",
+      "slots": [
+        {
+          "name": "Attendee",
+          "type": "AMAZON.LITERAL"
+        }
+      ]
+    },
+    {
+      "intent": "recordNewPoint",
+      "slots": [
+        {
+          "name": "NewPoint",
+          "type": "AMAZON.LITERAL"
+        }
+      ]
+    },
+    {
+      "intent": "recordNote",
+      "slots": [
+        {
+          "name": "Note",
+          "type": "AMAZON.LITERAL"
+        }
+      ]
     }
+
   ]
 }

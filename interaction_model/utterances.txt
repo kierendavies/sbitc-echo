@@ -1,1 +1,1 @@
-RawText {text|Text}
+RawText {a a a|Text}
