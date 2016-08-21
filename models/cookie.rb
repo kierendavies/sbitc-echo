@@ -2,7 +2,7 @@ require 'db'
 
 module Cookie
   def self.get
-    $DB[:cookie].first[:cookie]
+    $DB[:cookie].first.try :[], :cookie
   end
 
   def self.set cookie
