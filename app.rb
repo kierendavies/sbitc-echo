@@ -8,13 +8,19 @@ require 'active_support'
 require 'active_support/core_ext'
 
 require 'lib/response'
+require 'models/cookie'
 require 'audio_scraper/audio_scraper'
 
 require 'sinatra/reloader' if development?
 also_reload 'lib/response'
 
 get '/' do
-  haml :index
+  haml :index, locals: {cookie: Cookie.get}
+end
+
+post '/cookie' do
+  Cookie.set params[:cookie]
+  redirect to '/'
 end
 
 post '/echo' do
