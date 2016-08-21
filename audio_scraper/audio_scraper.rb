@@ -16,7 +16,6 @@ module AudioScraper
         fromMillis = (fromTime.to_f * 1000).to_i
         toMillis   = (toTime.to_f   * 1000).to_i
         url = "https://pitangui.amazon.com/api/cards?beforeCreationTime=#{toMillis}&_=#{fromMillis}"
-        puts url
 
         curl_response = Curl::Easy.perform(url) do |curl|
             curl.headers['User-Agent'] = USER_AGENT
