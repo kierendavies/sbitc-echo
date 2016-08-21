@@ -1,1 +1,9 @@
+ReadAgenda read agenda
+RecordAgendaItem record agenda item {a a a|AgendaItem}
+ReadActionList read actions list
+RecordActionItem record action item {a a a|ActionItem}
+RecordMotion new motion {a a a|Motion}
+RecordMotionResult motion result {a a a|MotionResult}
+AddAttendee add attendee {a a a|Attendee}
+NextAgendaItem next agenda item
 RawText {a a a|Text}

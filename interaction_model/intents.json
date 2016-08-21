@@ -10,22 +10,25 @@
       ]
     },
     {
-      "intent": "readItemsHeldOver"
+      "intent": "ReadAgenda"
     },
     {
-      "intent": "recordItemHeldOver",
+      "intent": "NextAgendaItem"
+    },
+    {
+      "intent": "RecordAgendaItem",
       "slots": [
         {
-          "name": "ItemHeldOver",
+          "name": "AgendaItem",
           "type": "AMAZON.LITERAL"
         }
       ]
     },
     {
-      "intent": "readActionList"
+      "intent": "ReadActionList"
     },
     {
-      "intent": "recordActionItem",
+      "intent": "RecordActionItem",
       "slots": [
         {
           "name": "ActionItem",
@@ -34,7 +37,7 @@
       ]
     },
     {
-      "intent": "recordMotion",
+      "intent": "RecordMotion",
       "slots": [
         {
           "name": "Motion",
@@ -49,7 +52,7 @@
       "intent": "AMAZON.YesIntent"
     },
     {
-      "intent": "recordMotionResult",
+      "intent": "RecordMotionResult",
       "slots": [
         {
           "name": "MotionResult",
@@ -58,7 +61,7 @@
       ]
     },
     {
-      "intent": "addAttendee",
+      "intent": "AddAttendee",
       "slots": [
         {
           "name": "Attendee",
@@ -67,16 +70,7 @@
       ]
     },
     {
-      "intent": "recordNewPoint",
-      "slots": [
-        {
-          "name": "NewPoint",
-          "type": "AMAZON.LITERAL"
-        }
-      ]
-    },
-    {
-      "intent": "recordNote",
+      "intent": "RecordNote",
       "slots": [
         {
           "name": "Note",
