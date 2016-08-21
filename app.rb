@@ -11,7 +11,7 @@ require 'sinatra/reloader' if development?
 also_reload './lib/response'
 
 get '/' do
-  'It works!'
+  haml :index
 end
 
 post '/echo' do
