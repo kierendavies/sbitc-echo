@@ -1,3 +1,5 @@
+db/*.db
+
 *.gem
 *.rbc
 /.config

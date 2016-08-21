@@ -1,3 +1,5 @@
+$LOAD_PATH.unshift File.expand_path File.dirname __FILE__
+
 require 'sinatra'
 require 'sinatra/json'
 
@@ -5,12 +7,11 @@ require 'json'
 require 'active_support'
 require 'active_support/core_ext'
 
-require './lib/response'
+require 'lib/response'
+require 'audio_scraper/audio_scraper'
 
 require 'sinatra/reloader' if development?
-also_reload './lib/response'
-
-require './audio_scraper/audio_scraper'
+also_reload 'lib/response'
 
 get '/' do
   haml :index

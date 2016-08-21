@@ -6,5 +6,8 @@ gem 'sinatra-contrib'
 gem 'activesupport'
 gem 'haml'
 
+gem 'sequel'
+gem 'sqlite3'
+
 gem 'pry'
 gem 'curb'
