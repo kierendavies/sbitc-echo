@@ -2,9 +2,10 @@ ReadAgenda read agenda
 RecordAgendaItem record agenda item {xenophrobation is bad|AgendaItem}
 ReadActionList read actions list
 RecordActionItem record action item {deipnosophist xenophilia|ActionItem}
-RecordMotion new motion {gaberlunzie macroons|Motion}
+RecordMotion start a motion {gaberlunzie macroons|Motion}
 RecordNote record note {opicsilico volcanocon|Note}
-CastVote cast a vote {a|Vote}
+CastVote cast a vote
 AddParticipant add participant {pneumonoul tramicrosc|Participant}
 NextAgendaItem next
+WhoAmI who am I
 RawText {a a a|Text}

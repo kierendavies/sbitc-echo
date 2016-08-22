@@ -2,7 +2,7 @@ require 'db'
 
 module Session
   def self.get
-    $DB[:session].first
+    $DB[:session].first || {}
   end
 
   def self.add id, state

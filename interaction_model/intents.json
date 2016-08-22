@@ -46,13 +46,7 @@
       ]
     },
     {
-      "intent": "CastVote",
-      "slots": [
-        {
-          "name": "Vote",
-          "type": "AMAZON.LITERAL"
-        }
-      ]
+      "intent": "CastVote"
     },
     {
       "intent": "AMAZON.NoIntent"
@@ -74,6 +68,15 @@
       "slots": [
         {
           "name": "Note",
+          "type": "AMAZON.LITERAL"
+        }
+      ]
+    },
+    {
+      "intent": "WhoAmI",
+      "slots": [
+        {
+          "name": "Text",
           "type": "AMAZON.LITERAL"
         }
       ]

@@ -1,6 +1,7 @@
 Sequel.migration do
   change do
     create_table :agenda_items do
+      primary_key :id
       String :agenda_item, text: true
     end
     create_table :participants do
