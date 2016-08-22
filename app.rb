@@ -10,12 +10,15 @@ require 'json'
 require 'active_support'
 require 'active_support/core_ext'
 
+require 'lib/audio_scraper'
+require 'lib/google_calendar'
 require 'lib/response'
 require 'models/cookie'
-require 'lib/audio_scraper'
+require 'models/meeting'
 
 require 'sinatra/reloader' if development?
-require 'models/meeting'
+
+GoogleCalendar.authorize
 
 get '/' do
   haml :index, locals: {cookie: Cookie.get}

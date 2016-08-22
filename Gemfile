@@ -12,6 +12,9 @@ gem 'haml'
 gem 'sequel'
 gem 'jdbc-sqlite3'
 
-# Postprocessing
+# Integrations
 gem 'httparty'
+gem 'google-api-client'
+
+# Postprocessing
 gem 'sucker_punch'
