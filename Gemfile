@@ -12,5 +12,6 @@ gem 'haml'
 gem 'sequel'
 gem 'jdbc-sqlite3'
 
-# Audio processing
+# Postprocessing
+gem 'httparty'
 gem 'sucker_punch'

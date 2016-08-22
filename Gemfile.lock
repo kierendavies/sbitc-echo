@@ -12,12 +12,15 @@ GEM
     concurrent-ruby (1.0.2-java)
     haml (4.0.7)
       tilt
+    httparty (0.14.0)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     jdbc-sqlite3 (3.8.11.2)
     json (1.8.3)
     json (1.8.3-java)
     minitest (5.9.0)
     multi_json (1.12.1)
+    multi_xml (0.5.5)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -50,6 +53,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   haml
+  httparty
   jdbc-sqlite3
   json
   sequel

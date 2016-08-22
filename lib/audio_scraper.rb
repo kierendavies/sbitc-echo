@@ -1,4 +1,4 @@
-require 'net/http'
+require 'httparty'
 require 'json'
 require 'active_support'
 require 'active_support/core_ext'
@@ -9,16 +9,14 @@ require 'tempfile'
 
 module AudioScraper
   def self.request path, **params
-    uri = URI 'https://pitangui.amazon.com' + path
-    uri.query = URI.encode_www_form params
-    request = Net::HTTP::Get.new uri
-    request['User-Agent'] = 'curl/7.50.0'
-    request['Accept'] = '*/*'
-    request['Referer'] = 'http://alexa.amazon.com/spa/index.html'
-    request['Cookie'] = Cookie.get
-    Net::HTTP.start uri.host, uri.port, use_ssl: true do |http|
-      http.request request
-    end.body
+    HTTParty.get 'https://pitangui.amazon.com' + path,
+      query: params.with_indifferent_access,
+      headers: {
+        'User-Agent' => 'curl/7.50.0',
+        'Accept' => '*/*',
+        'Referer' => 'http://alexa.amazon.com/spa/index.html',
+        'Cookie' => Cookie.get
+      }
   end
 
   # Returns a list of hashes of audio clips in a given range:
