@@ -18,3 +18,6 @@ gem 'google-api-client'
 
 # Postprocessing
 gem 'sucker_punch'
+
+# Voice Recognition
+gem 'diarize-jruby'
