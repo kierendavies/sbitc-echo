@@ -5,6 +5,8 @@ require 'active_support/core_ext'
 
 require 'models/cookie'
 
+require 'tempfile'
+
 module AudioScraper
   def self.request path, **params
     uri = URI 'https://pitangui.amazon.com' + path
@@ -55,5 +57,17 @@ module AudioScraper
 
   def self.audio id
     self.request '/api/utterance/audio/data', id: id
+  end
+
+  # Get a URI to a WAV version of the given audio file.
+  def self.wav_file id
+    file = Tempfile.new("echo_audio")
+    file.write audio id
+    
+    out_path = file.path + '.wav'
+    system "ffmpeg -i #{file.path} #{out_path}"
+
+    file.close
+    URI("file://#{out_path}")
   end
 end
