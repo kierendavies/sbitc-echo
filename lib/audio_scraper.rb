@@ -3,7 +3,7 @@ require 'json'
 require 'active_support'
 require 'active_support/core_ext'
 
-require 'models/cookie'
+require 'models/properties'
 
 require 'tempfile'
 
@@ -15,7 +15,7 @@ module AudioScraper
         'User-Agent' => 'curl/7.50.0',
         'Accept' => '*/*',
         'Referer' => 'http://alexa.amazon.com/spa/index.html',
-        'Cookie' => Cookie.get
+        'Cookie' => Properties.get('cookie')
       }
   end
 
@@ -61,7 +61,7 @@ module AudioScraper
   def self.wav_file id
     file = Tempfile.new("echo_audio")
     file.write audio id
-    
+
     out_path = file.path + '.wav'
     system "ffmpeg -i #{file.path} #{out_path}"
 

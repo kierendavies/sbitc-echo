@@ -8,4 +8,5 @@ CastVote cast a vote
 AddParticipant add participant {pneumonoul tramicrosc|Participant}
 NextAgendaItem next
 WhoAmI who am I
+WhoAmI who am I {a a a|Text}
 RawText {a a a|Text}

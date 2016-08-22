@@ -31,7 +31,7 @@
 # }
 
 module Response
-  def self.speech speech, **opts
+  def self.speech(speech, **opts)
     if speech.is_a? String
       type = :PlainText
     else
