@@ -19,6 +19,10 @@ module Meeting
     $DB[:participants].all
   end
 
+  def self.delete_participants
+    $DB[:participants].all.delete
+  end
+
   def self.action_list
     $DB[:actions].all
   end

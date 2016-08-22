@@ -24,7 +24,11 @@ require 'models/properties'
 GoogleCalendar.authorize
 
 get '/' do
-  redirect to '/properties'
+  haml :index, locals: {
+    participants: Meeting.participants.map { |p| p[:participant] || 'Unknown' },
+    agenda_items: Meeting.agenda.map { |i| i[:agenda_item] },
+    action_items: Meeting.action_list.map { |i| i[:action] }
+  }
 end
 
 get '/properties' do
@@ -60,8 +64,11 @@ post '/echo' do
       text = if meeting.nil?
         'there are no meetings scheduled.  do you want to start one anyway?'
       else
-        # add participants...
-        'starting meeting.  the participants are: ' + meeting[:attendees].join(', ')
+        Meeting.delete_participants
+        meeting[:attendees].each do |p|
+          Meeting.add_participant p
+        end
+        'starting meeting.  the participants are: ' + meeting[:attendees].map {|p| p || 'Unknown'}.join(', ')
       end
     when 'EndMeeting'
       EndMeetingJob.perform_async
