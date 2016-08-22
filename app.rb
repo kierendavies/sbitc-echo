@@ -55,15 +55,17 @@ post '/echo' do
       text = params[:request][:intent][:slots][:Text][:value]
       end_session = (text == 'end')
     when 'ReadAgenda'
-      agenda = Meeting.agenda.map{|k,v| "#{k[:agenda_item]}"}.join('. ')
-      text = "reading agenda #{agenda}"
+      text = if Meeting.agenda.empty?
+        'there is nothing on the agenda'
+      else
+        'the agenda items are: ' + Meeting.agenda.map{|i| i[:agenda_item]}.join('. ')
+      end
     when 'RecordAgendaItem'
       agenda_item = params[:request][:intent][:slots][:AgendaItem][:value]
       Meeting.add_agenda_item(agenda_item)
-      text = "recorded agenda item #{agenda_item}"
+      text = "added #{agenda_item} to the agenda"
     when 'ReadActionList'
-      action_list = Meeting.action_list.map{|k,v| "#{k[:action]}"}.join('. ')
-      text = "reading action list #{action_list}"
+      text = 'the action items are: ' + Meeting.action_list.map {|i| i[:action]}.join('. ')
     when 'RecordActionItem'
       action_item = params[:request][:intent][:slots][:ActionItem][:value]
       Meeting.add_action_item(action_item)
