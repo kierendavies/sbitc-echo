@@ -7,6 +7,9 @@ module Properties
   end
 
   def self.set name, value
-    $DB[:properties].insert_conflict(:update).insert(name: name, value: value)
+    $DB.transaction do
+      $DB[:properties].where(name: name).delete
+      $DB[:properties].insert(name: name, value: value)
+    end
   end
 end

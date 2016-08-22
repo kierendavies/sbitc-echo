@@ -23,12 +23,16 @@ require 'models/session'
 require 'models/properties'
 
 get '/' do
-  haml :index, locals: {cookie: Properties.get("cookie")}
+  redirect to '/properties'
 end
 
-post '/cookie' do
-  Properties.set "cookie", params[:cookie]
-  redirect to '/'
+get '/properties' do
+  haml :properties, locals: {cookie: Properties.get('cookie')}
+end
+
+post '/properties' do
+  Properties.set 'cookie', params[:cookie]
+  redirect to '/properties'
 end
 
 post '/echo' do

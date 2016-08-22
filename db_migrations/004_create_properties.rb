@@ -1,7 +1,7 @@
 Sequel.migration do
   change do
     create_table :properties do
-      primary_key :name, auto_increment: false
+      String :name
       String :value
     end
   end
