@@ -1,9 +1,10 @@
 ReadAgenda read agenda
-RecordAgendaItem record agenda item {a a a|AgendaItem}
+RecordAgendaItem record agenda item {xenophrobation is bad|AgendaItem}
 ReadActionList read actions list
-RecordActionItem record action item {a a a|ActionItem}
-RecordMotion new motion {a a a|Motion}
-RecordMotionResult motion result {a a a|MotionResult}
-AddAttendee add attendee {a a a|Attendee}
-NextAgendaItem next agenda item
+RecordActionItem record action item {deipnosophist xenophilia|ActionItem}
+RecordMotion new motion {gaberlunzie macroons|Motion}
+RecordNote record note {opicsilico volcanocon|Note}
+CastVote cast a vote {a|Vote}
+AddParticipant add participant {pneumonoul tramicrosc|Participant}
+NextAgendaItem next
 RawText {a a a|Text}

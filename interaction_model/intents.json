@@ -46,25 +46,25 @@
       ]
     },
     {
+      "intent": "CastVote",
+      "slots": [
+        {
+          "name": "Vote",
+          "type": "AMAZON.LITERAL"
+        }
+      ]
+    },
+    {
       "intent": "AMAZON.NoIntent"
     },
     {
       "intent": "AMAZON.YesIntent"
     },
     {
-      "intent": "RecordMotionResult",
+      "intent": "AddParticipant",
       "slots": [
         {
-          "name": "MotionResult",
-          "type": "AMAZON.LITERAL"
-        }
-      ]
-    },
-    {
-      "intent": "AddAttendee",
-      "slots": [
-        {
-          "name": "Attendee",
+          "name": "Participant",
           "type": "AMAZON.LITERAL"
         }
       ]
