@@ -11,7 +11,7 @@ module Meeting
   end
 
   def self.next_agenda_item
-    item_id += Properties.get('current_agenda_item_id').to_i || 1
+    item_id = (Properties.get('current_agenda_item_id').to_i || 0) + 1
     Properties.set('current_agenda_item_id', item_id)
   end
 

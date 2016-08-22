@@ -44,7 +44,7 @@ post '/echo' do
   when 'LaunchRequest'
     Response.speech(
       # 'recording meeting minutes, starting now',
-      'starting',
+      'what would you like to do?',
       end_session: false
     )
   when 'IntentRequest'
@@ -82,7 +82,11 @@ post '/echo' do
     when 'NextAgendaItem'
       Meeting.next_agenda_item
       item = Meeting.current_agenda_item
-      text = "Moving on to #{item}"
+      text = if item.nil?
+        'There is nothing left on the agenda'
+      else
+        "Moving on to #{item}"
+      end
     when 'RecordMotion'
       motion = params[:request][:intent][:slots][:Motion][:value]
       Meeting.add_motion(motion)
