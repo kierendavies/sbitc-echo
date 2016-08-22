@@ -2,7 +2,7 @@
 
 ## Running
 
-    bundle install
+    jruby -S bundle install
     jruby -S bundle exec sequel -m db_migrations jdbc:sqlite:db/development.sqlite3
     ruby app.rb
 
