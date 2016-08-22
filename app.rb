@@ -15,6 +15,7 @@ require 'lib/google_calendar'
 require 'lib/response'
 require 'lib/audio_scraper'
 require 'lib/end_meeting_job'
+require './voice_recognition/voice_recognition'
 
 require 'sinatra/reloader' if development?
 require 'models/meeting'
@@ -38,6 +39,25 @@ end
 post '/properties' do
   Properties.set 'cookie', params[:cookie]
   redirect to '/properties'
+end
+
+get '/guytest' do
+  timestamp = Time.parse params[:request][:timestamp]
+  timestamp_sec = timestamp.to_i
+  activities = AudioScraper.activities(timestamp - 1, timestamp + 1).select do |card|
+      (card[:time]/1000).to_i == timestamp_sec
+  end
+
+  if activities.length == 0
+      text = "couldn't find audio. you are probably tae"
+  end
+  
+  id = activities[0][:id]
+  wav_uri = AudioScraper.wav_file id
+  voices = VoiceRecognition.parse wav_uri
+
+  text = "I think it is #{voices[0][:speaker]} speaking"
+  puts text
 end
 
 post '/echo' do
@@ -134,8 +154,22 @@ post '/echo' do
         'ok'
       end
     when "WhoAmI"
-      text = params[:request][:intent][:slots][:Text][:value]
-      text="you are you #{text}"
+      timestamp = Time.parse params[:request][:timestamp]
+      timestamp_sec = timestamp.to_i
+      activities = AudioScraper.activities(timestamp - 1, timestamp + 1).select do |card|
+          (card[:time]/1000).to_i == timestamp_sec
+      end
+
+      if activities.length == 0
+          text = "Couldn't find audio."
+          break
+      end
+      
+      id = activities[0][:id]
+      wav_uri = AudioScraper.wav_file id
+      voices = VoiceRecognition.parse wav_uri
+
+      text = "I think it is #{voices[0][:speaker]} speaking."
     end
     Response.speech(text, end_session: end_session)
   when 'SessionEndedRequest'

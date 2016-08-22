@@ -8,7 +8,7 @@ module VoiceRecognition
         return @@models if @@models
         
         @@models = MODEL_NAMES.map do |name|
-            Diarize::Speaker.new nil, nil, "models/#{name}.gmm"
+            Diarize::Speaker.new nil, nil, "voice_recognition/models/#{name}.gmm"
         end  
     end
 
@@ -18,7 +18,7 @@ module VoiceRecognition
 
         # Our weights are based on the premise that if you are close to the base model, 
         # the model is probably bad.
-        base_model = Diarize::Speaker.new nil, nil, "models/ubm.gmm"
+        base_model = Diarize::Speaker.new nil, nil, "voice_recognition/models/ubm.gmm"
         @@model_weights = models.map do |model|
             1/Diarize::Speaker.divergence(base_model, model)
         end
@@ -33,6 +33,7 @@ module VoiceRecognition
     #                      in this snippet
     # }
     def self.parse uri
+        puts uri
         audio = Diarize::Audio.new uri
         audio.analyze!
 
@@ -64,5 +65,3 @@ module VoiceRecognition
         MODEL_NAMES[scores.index(scores.min)]
     end
 end
-
-puts VoiceRecognition.parse URI("file://#{ARGV[0]}") 

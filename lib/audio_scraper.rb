@@ -32,9 +32,12 @@ module AudioScraper
     # depaginate
     activities = []
     earliest_millis = end_millis
-    while earliest_millis > start_millis
-      response = request '/api/activities', endTime: end_millis, size: 50, offset: -1
-      data = JSON.parse(response).with_indifferent_access
+
+    # Hard cap responses at 200 to stop infinite loop.
+    # TODO: Fix this properly. Don't have time now.
+    while earliest_millis > start_millis && activities.length < 50
+      response = request '/api/activities', endTime: earliest_millis, size: 50, offset: -1
+      data = JSON.parse(response.body).with_indifferent_access
       activities += data[:activities] unless data[:activities].nil?
       earliest_millis = data[:startDate]
     end
@@ -54,7 +57,7 @@ module AudioScraper
   end
 
   def self.audio id
-    self.request '/api/utterance/audio/data', id: id
+    (self.request '/api/utterance/audio/data', id: id).body
   end
 
   # Get a URI to a WAV version of the given audio file.
