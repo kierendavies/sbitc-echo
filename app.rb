@@ -10,19 +10,29 @@ require 'json'
 require 'active_support'
 require 'active_support/core_ext'
 
+require 'lib/audio_scraper'
+require 'lib/google_calendar'
 require 'lib/response'
-require 'models/cookie'
+
+GoogleCalendar.authorize
 require 'lib/audio_scraper'
 
 require 'sinatra/reloader' if development?
+require 'models/meeting'
+require 'models/session'
+require 'models/properties'
 
 get '/' do
-  haml :index, locals: {cookie: Cookie.get}
+  redirect to '/properties'
 end
 
-post '/cookie' do
-  Cookie.set params[:cookie]
-  redirect to '/'
+get '/properties' do
+  haml :properties, locals: {cookie: Properties.get('cookie')}
+end
+
+post '/properties' do
+  Properties.set 'cookie', params[:cookie]
+  redirect to '/properties'
 end
 
 post '/echo' do
@@ -38,36 +48,66 @@ post '/echo' do
       end_session: false
     )
   when 'IntentRequest'
-    end_session = false
+    end_session = true
     text = ""
     case params[:request][:intent][:name]
     when 'RawText'
       text = params[:request][:intent][:slots][:Text][:value]
       end_session = (text == 'end')
     when 'ReadAgenda'
-      text = "reading agenda"
+      agenda = Meeting.agenda.map{|k,v| "#{k[:agenda_item]}"}.join('. ')
+      text = "reading agenda #{agenda}"
     when 'RecordAgendaItem'
-      agendaItem = params[:request][:intent][:slots][:AgendaItem][:value]
-      text = "recording agenda item #{agendaItem}"
+      agenda_item = params[:request][:intent][:slots][:AgendaItem][:value]
+      Meeting.add_agenda_item(agenda_item)
+      text = "recorded agenda item #{agenda_item}"
     when 'ReadActionList'
-      text = "reading action list"
+      action_list = Meeting.action_list.map{|k,v| "#{k[:action]}"}.join('. ')
+      text = "reading action list #{action_list}"
     when 'RecordActionItem'
-      actionItem = params[:request][:intent][:slots][:ActionItem][:value]
-      text = "recording action item #{actionItem}"
-    when 'RecordMotion'
-      motion = params[:request][:intent][:slots][:Motion][:value]
-      text = "recording motion #{motion}"
-    when 'RecordMotionResult'
-      motionResult = params[:request][:intent][:slots][:MotionResult][:value]
-      text = "record motion result #{motionResult}"
-    when 'AddAttendee'
-      attendee = params[:request][:intent][:slots][:Attendee][:value]
-      text = "add attendee #{attendee}"
+      action_item = params[:request][:intent][:slots][:ActionItem][:value]
+      Meeting.add_action_item(action_item)
+      text = "recorded action item #{action_item}"
+    when 'AddParticipant'
+      participant = params[:request][:intent][:slots][:Participant][:value]
+      Meeting.add_participant(participant)
+      text = "added participant #{participant}"
     when 'RecordNote'
       note = params[:request][:intent][:slots][:Note][:value]
-      text = "record note #{note}"
+      Meeting.add_note(note)
+      text = "recorded note #{note}"
+    when "GetCurrentAgendaItem"
+      item = Meeting.current_agenda_item
+      text = "current agenda item is #{item}"
     when 'NextAgendaItem'
-      text = "moving along now..."
+      Meeting.next_agenda_item
+      item = Meeting.current_agenda_item
+      text = "Moving on to #{item}"
+    when 'RecordMotion'
+      motion = params[:request][:intent][:slots][:Motion][:value]
+      Meeting.add_motion(motion)
+      text = "recorded motion #{motion}"
+    when 'CastVote'
+      session_id = params[:session][:sessionId]
+      Session.add(session_id, 'CastVote')
+      end_session = false
+      # text = "session is #{session_id}"
+    when 'AMAZON.YesIntent'
+      session_id = params[:session][:sessionId]
+      if session_id == Session.get[:id] && Session.get[:state] == 'CastVote'
+        Meeting.cast_vote(true)
+        text = "voted yes"
+      end
+      text = "couldn't cast a vote"
+    when 'AMAZON.NoIntent'
+      session_id = params[:session][:sessionId]
+      if session_id == Session.get[:id] && Session.get[:state] == 'CastVote'
+        Meeting.cast_vote(false)
+        text = "voted no"
+      end
+    when "WhoAmI"
+      text = params[:request][:intent][:slots][:Text][:value]
+      text="you are you #{text}"
     end
     Response.speech(text, end_session: end_session)
   when 'SessionEndedRequest'

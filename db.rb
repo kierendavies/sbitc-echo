@@ -1,3 +1,3 @@
 require 'sequel'
 
-$DB ||= Sequel.connect 'sqlite://db/development.db'
+$DB ||= Sequel.connect 'jdbc:sqlite:db/development.sqlite3'

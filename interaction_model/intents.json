@@ -46,25 +46,19 @@
       ]
     },
     {
+      "intent": "CastVote"
+    },
+    {
       "intent": "AMAZON.NoIntent"
     },
     {
       "intent": "AMAZON.YesIntent"
     },
     {
-      "intent": "RecordMotionResult",
+      "intent": "AddParticipant",
       "slots": [
         {
-          "name": "MotionResult",
-          "type": "AMAZON.LITERAL"
-        }
-      ]
-    },
-    {
-      "intent": "AddAttendee",
-      "slots": [
-        {
-          "name": "Attendee",
+          "name": "Participant",
           "type": "AMAZON.LITERAL"
         }
       ]
@@ -74,6 +68,15 @@
       "slots": [
         {
           "name": "Note",
+          "type": "AMAZON.LITERAL"
+        }
+      ]
+    },
+    {
+      "intent": "WhoAmI",
+      "slots": [
+        {
+          "name": "Text",
           "type": "AMAZON.LITERAL"
         }
       ]

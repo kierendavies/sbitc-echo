@@ -13,9 +13,10 @@
   %body
     .container
       %h1 Meeting Minutes
-      %form{action: '/cookie', method: 'post'}
+      %h2 Properties setup
+      %form{action: '/properties', method: 'post'}
         .form-group
           %label{for: 'cookie'} Cookie
           -# %input#cookie.form-control{type: 'textarea'}
           %textarea#cookie.form-control{name: 'cookie'}= locals[:cookie]
-        %button.btn.btn-primary{type: 'submit'} Set cookie
+        %button.btn.btn-primary{type: 'submit'} Save
