@@ -13,14 +13,15 @@ require 'active_support/core_ext'
 require 'lib/audio_scraper'
 require 'lib/google_calendar'
 require 'lib/response'
-
-GoogleCalendar.authorize
 require 'lib/audio_scraper'
+require 'lib/end_meeting_job'
 
 require 'sinatra/reloader' if development?
 require 'models/meeting'
 require 'models/session'
 require 'models/properties'
+
+GoogleCalendar.authorize
 
 get '/' do
   redirect to '/properties'
@@ -54,6 +55,17 @@ post '/echo' do
     when 'RawText'
       text = params[:request][:intent][:slots][:Text][:value]
       end_session = (text == 'end')
+    when 'StartMeeting'
+      meeting = GoogleCalendar.current_event
+      text = if meeting.nil?
+        'there are no meetings scheduled.  do you want to start one anyway?'
+      else
+        # add participants...
+        'starting meeting.  the participants are: ' + meeting[:attendees].join(', ')
+      end
+    when 'EndMeeting'
+      EndMeetingJob.perform_async
+      text = 'meeting ended.  minutes will be emailed to all participants.'
     when 'ReadAgenda'
       text = if Meeting.agenda.empty?
         'there is nothing on the agenda'
@@ -100,16 +112,19 @@ post '/echo' do
       # text = "session is #{session_id}"
     when 'AMAZON.YesIntent'
       session_id = params[:session][:sessionId]
-      if session_id == Session.get[:id] && Session.get[:state] == 'CastVote'
+      text = if session_id == Session.get[:id] && Session.get[:state] == 'CastVote'
         Meeting.cast_vote(true)
-        text = "voted yes"
+        "voted yes"
+      else
+        'ok'
       end
-      text = "couldn't cast a vote"
     when 'AMAZON.NoIntent'
       session_id = params[:session][:sessionId]
-      if session_id == Session.get[:id] && Session.get[:state] == 'CastVote'
+      text = if session_id == Session.get[:id] && Session.get[:state] == 'CastVote'
         Meeting.cast_vote(false)
-        text = "voted no"
+        "voted no"
+      else
+        'ok'
       end
     when "WhoAmI"
       text = params[:request][:intent][:slots][:Text][:value]
